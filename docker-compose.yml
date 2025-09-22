@@ -1,0 +1,24 @@
+
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8
+    container_name: room-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: roomexpenses
+    ports:
+      - "3306:3306"
+
+  app:
+    build: .
+    container_name: room-app
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/roomexpenses
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
